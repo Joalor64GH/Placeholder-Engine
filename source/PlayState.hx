@@ -55,6 +55,7 @@ import Achievements;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
+import Character;
 #if sys
 import sys.FileSystem;
 #end
