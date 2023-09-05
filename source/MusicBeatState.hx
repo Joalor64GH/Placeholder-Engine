@@ -16,6 +16,8 @@ import flixel.FlxBasic;
 
 class MusicBeatState extends FlxUIState
 {
+	var switching:Bool;
+
 	private var lastBeat:Float = 0;
 	private var lastStep:Float = 0;
 
@@ -90,6 +92,7 @@ class MusicBeatState extends FlxUIState
 
 	public static function switchState(nextState:FlxState) {
 		// Custom made Trans in
+		switching = true;
 		var curState:Dynamic = FlxG.state;
 		var leState:MusicBeatState = curState;
 		if(!FlxTransitionableState.skipNextTransIn) {
