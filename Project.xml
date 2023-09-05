@@ -104,6 +104,11 @@
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxcpp-debug-server" if="desktop debug"/>
 
+	<!-- _______________________________ Macros Fixes ______________________________ -->
+
+	<haxeflag name="--macro" value="allowPackage('flash')" />
+	<haxeflag name="--macro" value="include('my.pack')" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!-- NOTE TO SELF: DISABLE THIS IF ISSUES ARE FOUND -->
