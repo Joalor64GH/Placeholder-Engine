@@ -115,6 +115,24 @@ class Highscore
 		return songScores.get(daSong);
 	}
 
+	public static function scoreGet(song:String):Int
+	{
+		var daSong:String = formatSong(song);
+		if (!songScores.exists(daSong))
+			setScore(daSong, 0);
+
+		return songScores.get(daSong);
+	}
+
+	public static function ratingGet(song:String):Float
+	{
+		var daSong:String = formatSong(song);
+		if (!songRating.exists(daSong))
+			setRating(daSong, 0);
+
+		return songRating.get(daSong);
+	}
+
 	public static function getRating(song:String, diff:Int):Float
 	{
 		var daSong:String = formatSong(song, diff);

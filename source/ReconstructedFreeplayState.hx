@@ -23,17 +23,20 @@ class ReconstructedFreeplayState extends MusicBeatState
 		new CoolSong('fresh', 'idk', 'dad'),
 		new CoolSong('dad-battle', 'what', 'dad')
 	];
-
-	var scoreText:FlxText;
+	
 	var lerpScore:Int = 0;
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
 
+	var scoreText:FlxText;
 	var descTxt:FlxText;
 
+	var bottomPanel:FlxSprite;
+
+	var menuBG:FlxSprite;
+
     	var curSelected:Int = 0;
-   	var menuBG:FlxSprite;
 
     override function create()
 	{
@@ -161,8 +164,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-        intendedScore = Highscore.getScore(controlStrings[curSelected].name);
-		intendedRating = Highscore.getRating(controlStrings[curSelected].name);
+        intendedScore = Highscore.scoreGet(controlStrings[curSelected].name);
+		intendedRating = Highscore.ratingGet(controlStrings[curSelected].name);
 
 		for (i in 0...iconArray.length)
 			iconArray[i].alpha = 0.6;
