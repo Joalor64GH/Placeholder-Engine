@@ -268,6 +268,7 @@ class StoryMenuState extends MusicBeatState
 		} else {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
+	}
 
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
