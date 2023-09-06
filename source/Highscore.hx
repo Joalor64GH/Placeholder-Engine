@@ -45,7 +45,7 @@ class Highscore
 		return newValue / tempMult;
 	}
 
-	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, ?rating:Float = -1):Void
+	public static function saveScore(song:String, score:Int = 0, ?rating:Float = -1):Void
 	{
 		var daSong:String = formatSong(song);
 
@@ -114,7 +114,7 @@ class Highscore
 		return songScores.get(daSong);
 	}
 
-	public static function getRating(song:String:Int):Float
+	public static function getRating(song:String):Float
 	{
 		var daSong:String = formatSong(song);
 		if (!songRating.exists(daSong))
@@ -123,7 +123,7 @@ class Highscore
 		return songRating.get(daSong);
 	}
 
-	public static function getWeekScore(week:String:Int):Int
+	public static function getWeekScore(week:String):Int
 	{
 		var daWeek:String = formatSong(week);
 		if (!weekScores.exists(daWeek))
