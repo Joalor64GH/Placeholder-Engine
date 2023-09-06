@@ -246,7 +246,7 @@ class MainMenuItem extends AtlasMenuItem
 class MainMenuList extends MenuTypedList<MainMenuItem>
 {
 	var atlas:FlxAtlasFrames;
-	var items:MainMenuState.menuItems;
+	static var items:MainMenuState.menuItems;
 
 	public function new()
 	{
