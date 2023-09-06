@@ -246,12 +246,13 @@ class MainMenuItem extends AtlasMenuItem
 class MainMenuList extends MenuTypedList<MainMenuItem>
 {
 	var atlas:FlxAtlasFrames;
+	var items:MainMenuState.menuItems;
 
 	public function new()
 	{
-		for (i in 0...MainMenuState.menuItems.length)
+		for (i in 0...items.length)
 		{
-			atlas = Paths.getSparrowAtlas('mainmenu/menu_' + MainMenuState.menuItems[i]);
+			atlas = Paths.getSparrowAtlas('mainmenu/menu_' + items[i]);
 		}
 		super(Vertical);
 	}
