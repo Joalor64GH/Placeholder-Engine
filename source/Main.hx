@@ -10,7 +10,6 @@ import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
-import flixel.addons.transition.FlxTransitionableState;
 
 class Main extends Sprite
 {
@@ -55,31 +54,5 @@ class Main extends Sprite
 		#if html5
 		FlxG.autoPause = FlxG.mouse.visible = false;
 		#end
-	}
-
-	public static function switchState(nextState:FlxState)
-	{
-		var callback = function()
-		{
-			if (nextState == FlxG.state)
-				FlxG.resetState();
-			else
-				FlxG.switchState(nextState);
-		};
-		if (!FlxTransitionableState.skipNextTransIn)
-		{
-			var state = FlxG.state;
-			@:privateAccess
-			if (Std.isOfType(state, FlxTransitionableState))
-				cast(state, FlxTransitionableState)._exiting = true;
-			while (state.subState != null)
-				state = state.subState;
-			state.openSubState(new CustomFadeTransition(0.5, false));
-		}
-		else
-		{
-			FlxTransitionableState.skipNextTransIn = false;
-			callback();
-		}
 	}
 }
