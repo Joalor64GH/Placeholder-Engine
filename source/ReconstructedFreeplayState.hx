@@ -18,6 +18,7 @@ class ReconstructedFreeplayState extends MusicBeatState
         private var iconArray:Array<HealthIcon> = [];
 
 	var controlStrings:Array<CoolSong> = [
+		new CoolSong('tutorial', 'woah', 'gf'),
 		new CoolSong('bopeebo', 'example description', 'dad'),
 		new CoolSong('fresh', 'idk', 'dad'),
 		new CoolSong('dad-battle', 'what', 'dad')
@@ -163,8 +164,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-        	intendedScore = Highscore.scoreGet(controlStrings[curSelected].name);
-		intendedRating = Highscore.ratingGet(controlStrings[curSelected].name);
+        	intendedScore = Highscore.getScore(controlStrings[curSelected].name);
+		intendedRating = Highscore.getRating(controlStrings[curSelected].name);
 
 		for (i in 0...iconArray.length)
 			iconArray[i].alpha = 0.6;

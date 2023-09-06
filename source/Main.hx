@@ -11,6 +11,8 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 
+import core.ToastCore;
+
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -18,6 +20,7 @@ class Main extends Sprite
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 
 	public static var fpsVar:FPS;
+	public static var toast:ToastCore; // credits go to MAJigsaw77
 
 	public static function main():Void
 	{
@@ -54,5 +57,8 @@ class Main extends Sprite
 		#if html5
 		FlxG.autoPause = FlxG.mouse.visible = false;
 		#end
+
+		toast = new ToastCore();
+		addChild(toast);
 	}
 }
