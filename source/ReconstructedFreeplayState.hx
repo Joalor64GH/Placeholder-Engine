@@ -11,10 +11,9 @@ import flixel.group.FlxGroup.FlxTypedGroup;
  * Mostly copied from MinigamesState.hx
  * @see https://github.com/Joalor64GH/Joalor64-Engine-Rewrite/blob/main/source/meta/state/MinigamesState.hx
  */
-
 class ReconstructedFreeplayState extends MusicBeatState 
 {
-    private var grpControls:FlxTypedGroup<Alphabet>;
+    	private var grpControls:FlxTypedGroup<Alphabet>;
 
         private var iconArray:Array<HealthIcon> = [];
 
@@ -38,14 +37,14 @@ class ReconstructedFreeplayState extends MusicBeatState
 
     	var curSelected:Int = 0;
 
-    override function create()
+    	override function create()
 	{
 		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
-        menuBG.color = 0xFFffffff;
+        	menuBG.color = 0xFFffffff;
 		add(menuBG);
 
-        var thisThing:FlxSprite = new FlxSprite();
+        	var thisThing:FlxSprite = new FlxSprite();
 		thisThing.frames = Paths.getSparrowAtlas('mainmenu/thisidk');
 		thisThing.antialiasing = ClientPrefs.globalAntialiasing;
 		thisThing.animation.addByPrefix('idle', 'thingidk', 24, false);
@@ -60,8 +59,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			var controlLabel:Alphabet = new Alphabet(0, 0, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
-            controlLabel.isMenuItemCentered = false;
-            controlLabel.itemType = 'Vertical';
+            		controlLabel.isMenuItemCentered = false;
+            		controlLabel.itemType = 'Vertical';
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
 
@@ -72,15 +71,15 @@ class ReconstructedFreeplayState extends MusicBeatState
 			add(icon);
 		}
         
-        	var bottomPanel:FlxSprite = new FlxSprite(0, FlxG.height - 100).makeGraphic(FlxG.width, 100, 0xFF000000);
+        	bottomPanel = new FlxSprite(0, FlxG.height - 100).makeGraphic(FlxG.width, 100, 0xFF000000);
 		bottomPanel.alpha = 0.5;
 		add(bottomPanel);
 
-        scoreText = new FlxText(20, FlxG.height - 80, 1000, "", 22);
+        	scoreText = new FlxText(20, FlxG.height - 80, 1000, "", 22);
 		scoreText.setFormat("VCR OSD Mono", 26, 0xFFffffff, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreText.scrollFactor.set();
-        scoreText.screenCenter(X);
-        add(scoreText);
+        	scoreText.screenCenter(X);
+        	add(scoreText);
 
         	descTxt = new FlxText(scoreText.x, scoreText.y - 25, 1000, "", 22);
         	descTxt.screenCenter(X);
@@ -97,7 +96,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-        lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
+        	lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpRating = FlxMath.lerp(lerpRating, intendedRating, CoolUtil.boundTo(elapsed * 12, 0, 1));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
@@ -122,27 +121,27 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		if (controls.BACK) 
         	{
-                FlxG.sound.play(Paths.sound('cancelMenu'));
-				MusicBeatState.switchState(new MainMenuState());
+                	FlxG.sound.play(Paths.sound('cancelMenu'));
+			MusicBeatState.switchState(new MainMenuState());
         	}
             
 		if (controls.ACCEPT)
 		{
-            FlxG.sound.music.volume = 0;
-            FlxG.sound.play(Paths.sound('confirmMenu'));
-            LoadingState.loadAndSwitchState(new PlayState());
+            		FlxG.sound.music.volume = 0;
+            		FlxG.sound.play(Paths.sound('confirmMenu'));
+            		LoadingState.loadAndSwitchState(new PlayState());
 			switch (curSelected)
             		{
 				case 0:
 					PlayState.SONG = Song.loadFromJson('bopeebo-hard', 'bopeebo');
 				case 1:
 					PlayState.SONG = Song.loadFromJson('fresh-hard', 'fresh');
-                case 2:
+                		case 2:
 					PlayState.SONG = Song.loadFromJson('dad-battle-hard', 'dad-battle');
 			}
 		}
 
-        if (FlxG.keys.justPressed.CONTROL)
+        	if (FlxG.keys.justPressed.CONTROL)
 		{
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
@@ -164,7 +163,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-        intendedScore = Highscore.scoreGet(controlStrings[curSelected].name);
+        	intendedScore = Highscore.scoreGet(controlStrings[curSelected].name);
 		intendedRating = Highscore.ratingGet(controlStrings[curSelected].name);
 
 		for (i in 0...iconArray.length)
@@ -186,7 +185,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 		}
 	}
 
-    private function positionHighscore() {
+    	private function positionHighscore() {
 		scoreText.x = FlxG.width - scoreText.width - 6;
 
 		bottomPanel.scale.x = FlxG.width - scoreText.x + 6;
