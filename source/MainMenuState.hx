@@ -33,12 +33,12 @@ class MainMenuState extends MusicBeatState
 	public static var placeholderVersion:String = '0.0.1'; //This is used for Discord RPC
 	public static var psychEngineVersion:String = '0.5.2h';
 
+	public static var menuItems:MainMenuList;
+
 	public static var curSelected:Int = 0;
 
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
-	
-	public var menuItems:MainMenuList;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;

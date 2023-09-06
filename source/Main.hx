@@ -74,7 +74,7 @@ class Main extends Sprite
 				cast(state, FlxTransitionableState)._exiting = true;
 			while (state.subState != null)
 				state = state.subState;
-			state.openSubState(new FadeSubstate(0.5, false, callback));
+			state.openSubState(new CustomFadeTransition(0.5, false));
 		}
 		else
 		{
