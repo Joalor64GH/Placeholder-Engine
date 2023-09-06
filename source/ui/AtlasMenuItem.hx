@@ -15,8 +15,8 @@ class AtlasMenuItem extends MenuItem
 	override public function setData(name:String, ?callback:Void->Void)
 	{
 		frames = atlas;
-		animation.addByPrefix('idle', '$name idle', 24);
-		animation.addByPrefix('selected', '$name selected', 24);
+		animation.addByPrefix('idle', '$name basic', 24);
+		animation.addByPrefix('selected', '$name white', 24);
 		super.setData(name, callback);
 	}
 

@@ -13,14 +13,14 @@ class MenuTypedList<T:MenuItem> extends FlxTypedGroup<T>
 	public var onAcceptPress:FlxTypedSignal<T->Void> = new FlxTypedSignal<T->Void>();
 
 	public var enabled:Bool = true;
-	public var navControls:Controls;
+	public var navControls:NavControls;
 	public var wrapMode:WrapMode = Both;
 	public var byName:Map<String, T> = new Map<String, T>();
 	public var busy:Bool = false;
 
-	public function new(dir:Controls = Vertical, ?wrapDir:WrapMode)
+	public function new(dir:NavControls = Vertical, ?wrapDir:WrapMode)
 	{
-		Controls = dir;
+		navControls = dir;
 		if (wrapDir != null)
 		{
 			wrapMode = wrapDir;

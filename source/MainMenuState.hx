@@ -248,7 +248,7 @@ class MainMenuList extends MenuTypedList<MainMenuItem>
 
 	public function new()
 	{
-		for (i in 0...menuItems.length)
+		for (i in 0...MainMenuState.menuItems.length)
 		{
 			atlas = Paths.getSparrowAtlas('mainmenu/menu_' + menuItems[i]);
 		}
