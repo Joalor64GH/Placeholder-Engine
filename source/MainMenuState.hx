@@ -31,6 +31,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var placeholderVersion:String = '0.0.1'; //This is used for Discord RPC
 	public static var psychEngineVersion:String = '0.5.2h';
+
 	public static var curSelected:Int = 0;
 
 	private var camGame:FlxCamera;
@@ -66,7 +67,7 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
+		var yScroll:Float = Math.max(0.25 - (0.05 * (menuItems.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.set(0, yScroll);
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
@@ -124,7 +125,7 @@ class MainMenuState extends MusicBeatState
 		#if !switch
 		menuItems.createItem(null, null, "donate", function()
 		{
-			CoolUtil.openURL('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game');
+			CoolUtil.browserLoad('https://www.kickstarter.com/projects/funkin/friday-night-funkin-the-full-ass-game');
 		}, true);
 		#end
 		menuItems.createItem(0, 0, "options", function()
@@ -141,8 +142,6 @@ class MainMenuState extends MusicBeatState
 			item.antialiasing = ClientPrefs.globalAntialiasing;
 			item.updateHitbox();
 		}
-
-		FlxG.camera.follow(camFollowPos, null, 1);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Placeholder Engine v" + placeholderVersion + " (PE v" + psychEngineVersion + ")", 12);
 		versionShit.scrollFactor.set();
@@ -171,7 +170,7 @@ class MainMenuState extends MusicBeatState
 
 	function onMenuItemChange(item:MenuItem)
 	{
-		menuCamera.camFollow.copyFrom(item.getGraphicMidpoint());
+		FlxG.camera.follow(camFollowPos, null, 1);
 	}
 
 	function startExitState(nextState:FlxState)
@@ -186,7 +185,7 @@ class MainMenuState extends MusicBeatState
 		});
 		new FlxTimer().start(0.4, function(tmr:FlxTimer)
 		{
-			MusicBeatState.switchState(nextState);
+			Main.switchState(nextState);
 		});
 	}
 
@@ -207,7 +206,7 @@ class MainMenuState extends MusicBeatState
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-		if (MusicBeatState.switching)
+		if (_exiting)
 			menuItems.enabled = false;
 
 		if (controls.BACK && menuItems.enabled && !menuItems.busy)

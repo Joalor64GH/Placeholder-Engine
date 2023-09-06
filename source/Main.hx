@@ -55,4 +55,30 @@ class Main extends Sprite
 		FlxG.autoPause = FlxG.mouse.visible = false;
 		#end
 	}
+
+	public static function switchState(nextState:FlxState)
+	{
+		var callback = function()
+		{
+			if (nextState == FlxG.state)
+				FlxG.resetState();
+			else
+				FlxG.switchState(nextState);
+		};
+		if (!FlxTransitionableState.skipNextTransIn)
+		{
+			var state = FlxG.state;
+			@:privateAccess
+			if (Std.isOfType(state, FlxTransitionableState))
+				cast(state, FlxTransitionableState)._exiting = true;
+			while (state.subState != null)
+				state = state.subState;
+			state.openSubState(new FadeSubstate(0.5, false, callback));
+		}
+		else
+		{
+			FlxTransitionableState.skipNextTransIn = false;
+			callback();
+		}
+	}
 }
