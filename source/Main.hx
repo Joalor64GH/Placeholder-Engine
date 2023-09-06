@@ -10,6 +10,7 @@ import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
+import flixel.addons.transition.FlxTransitionableState;
 
 class Main extends Sprite
 {

@@ -20,6 +20,7 @@ import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import lime.app.Application;
 import Achievements;
 import editors.MasterEditorMenu;
@@ -37,7 +38,7 @@ class MainMenuState extends MusicBeatState
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	
-	var menuItems:MainMenuList;
+	public var menuItems:MainMenuList;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -250,7 +251,7 @@ class MainMenuList extends MenuTypedList<MainMenuItem>
 	{
 		for (i in 0...MainMenuState.menuItems.length)
 		{
-			atlas = Paths.getSparrowAtlas('mainmenu/menu_' + menuItems[i]);
+			atlas = Paths.getSparrowAtlas('mainmenu/menu_' + MainMenuState.menuItems[i]);
 		}
 		super(Vertical);
 	}
