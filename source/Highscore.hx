@@ -106,18 +106,15 @@ class Highscore
 		return Paths.formatToSongPath(song) + CoolUtil.getDifficultyFilePath(diff);
 	}
 
-	public static function getScore(song:String, diff:Int):Int
+	//////////////ALT FUNCTIONS//////////////
+	public static function songFormat(song:String):String
 	{
-		var daSong:String = formatSong(song, diff);
-		if (!songScores.exists(daSong))
-			setScore(daSong, 0);
-
-		return songScores.get(daSong);
+		return Paths.formatToSongPath(song);
 	}
 
 	public static function scoreGet(song:String):Int
 	{
-		var daSong:String = formatSong(song);
+		var daSong:String = songFormat(song);
 		if (!songScores.exists(daSong))
 			setScore(daSong, 0);
 
@@ -126,11 +123,21 @@ class Highscore
 
 	public static function ratingGet(song:String):Float
 	{
-		var daSong:String = formatSong(song);
+		var daSong:String = songFormat(song);
 		if (!songRating.exists(daSong))
 			setRating(daSong, 0);
 
 		return songRating.get(daSong);
+	}
+	////////////////////////////
+
+	public static function getScore(song:String, diff:Int):Int
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songScores.exists(daSong))
+			setScore(daSong, 0);
+
+		return songScores.get(daSong);
 	}
 
 	public static function getRating(song:String, diff:Int):Float
