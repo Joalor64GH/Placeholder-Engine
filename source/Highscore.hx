@@ -61,7 +61,7 @@ class Highscore
 		}
 	}
 
-	public static function saveWeekScore(week:String, score:Int = 0, ?diff:Int = 0):Void
+	public static function saveWeekScore(week:String, score:Int = 0):Void
 	{
 		var daWeek:String = formatSong(week);
 
@@ -105,7 +105,7 @@ class Highscore
 		return Paths.formatToSongPath(song);
 	}
 
-	public static function getScore(song:String:Int):Int
+	public static function getScore(song:String):Int
 	{
 		var daSong:String = formatSong(song);
 		if (!songScores.exists(daSong))
