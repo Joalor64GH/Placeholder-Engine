@@ -14,14 +14,13 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 class ReconstructedFreeplayState extends MusicBeatState 
 {
     	private var grpControls:FlxTypedGroup<Alphabet>;
-
         private var iconArray:Array<HealthIcon> = [];
 
-	var controlStrings:Array<CoolSong> = [
-		new CoolSong('tutorial', 'woah', 'gf'),
-		new CoolSong('bopeebo', 'example description', 'dad'),
-		new CoolSong('fresh', 'idk', 'dad'),
-		new CoolSong('dad-battle', 'what', 'dad')
+	public var controlStrings:Array<CoolSong> = [
+		new CoolSong('tutorial', 'tutorial', 'woah', 'gf'),
+		new CoolSong('bopeebo', 'bopeebo', 'example description', 'dad'),
+		new CoolSong('fresh', 'fresh', 'idk', 'dad'),
+		new CoolSong('dad-battle', 'dad-battle', 'what', 'dad')
 	];
 	
 	var lerpScore:Int = 0;
@@ -31,7 +30,6 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 	var scoreText:FlxText;
 	var descTxt:FlxText;
-
 	var bottomPanel:FlxSprite;
 
 	var menuBG:FlxSprite;
@@ -40,6 +38,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 
     	override function create()
 	{
+		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel')); // test function
+
 		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
         	menuBG.color = 0xFFffffff;
@@ -106,13 +106,10 @@ class ReconstructedFreeplayState extends MusicBeatState
 			lerpRating = intendedRating;
 
 		var ratingSplit:Array<String> = Std.string(Highscore.floorDecimal(lerpRating * 100, 2)).split('.');
-		if(ratingSplit.length < 2) { //No decimals, add an empty space
+		if(ratingSplit.length < 2)
 			ratingSplit.push('');
-		}
-		
-		while(ratingSplit[1].length < 2) { //Less than 2 decimals in it, add decimals then
+		while(ratingSplit[1].length < 2)
 			ratingSplit[1] += '0';
-		}
 
 		scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
 		positionHighscore();
@@ -131,15 +128,7 @@ class ReconstructedFreeplayState extends MusicBeatState
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
             		LoadingState.loadAndSwitchState(new PlayState());
-			switch (curSelected)
-            		{
-				case 0:
-					PlayState.SONG = Song.loadFromJson('bopeebo-hard', 'bopeebo');
-				case 1:
-					PlayState.SONG = Song.loadFromJson('fresh-hard', 'fresh');
-                		case 2:
-					PlayState.SONG = Song.loadFromJson('dad-battle-hard', 'dad-battle');
-			}
+					PlayState.SONG = Song.loadFromJson(controlStrings[i].name, controlStrings[i].directory);
 		}
 
         	if (FlxG.keys.justPressed.CONTROL)
@@ -197,12 +186,14 @@ class ReconstructedFreeplayState extends MusicBeatState
 class CoolSong
 {
 	public var name:String;
+	public var directory:String;
 	public var description:String;
 	public var icon:String;
 
-	public function new(Name:String, dsc:String, img:String)
+	public function new(Name:String, folder:String, dsc:String, img:String)
 	{
 		name = Name;
+		directory = folder;
         	description = dsc;
         	icon = img;
 	}
