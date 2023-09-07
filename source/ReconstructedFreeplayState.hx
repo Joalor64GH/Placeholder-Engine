@@ -128,7 +128,7 @@ class ReconstructedFreeplayState extends MusicBeatState
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
             		LoadingState.loadAndSwitchState(new PlayState());
-			PlayState.SONG = Song.loadFromJson(controlStrings[i].name, controlStrings[i].directory);
+			PlayState.SONG = Song.loadFromJson(controlStrings[curSelected].name, controlStrings[curSelected].directory);
 		}
 
         	if (FlxG.keys.justPressed.CONTROL)
