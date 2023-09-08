@@ -38,8 +38,6 @@ class StoryMenuState extends MusicBeatState
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
 
 	var grpLocks:FlxTypedGroup<FlxSprite>;
-	var leftArrow:FlxSprite;
-	var rightArrow:FlxSprite;
 
 	var loadedWeeks:Array<WeekData> = [];
 
@@ -182,16 +180,6 @@ class StoryMenuState extends MusicBeatState
 				changeWeek(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-
-			if (controls.UI_RIGHT)
-				rightArrow.animation.play('press')
-			else
-				rightArrow.animation.play('idle');
-
-			if (controls.UI_LEFT)
-				leftArrow.animation.play('press');
-			else
-				leftArrow.animation.play('idle');
 
 			if(FlxG.keys.justPressed.CONTROL)
 			{
