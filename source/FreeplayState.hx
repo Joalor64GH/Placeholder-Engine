@@ -97,7 +97,7 @@ class FreeplayState extends MusicBeatState
 		bg.screenCenter();
 
 		var thisThing:FlxSprite = new FlxSprite();
-		thisThing.frames = Paths.getSparrowAtlas('mainmenu/thisidk');
+		thisThing.frames = Paths.getSparrowAtlas('freeplay/thisidk');
 		thisThing.antialiasing = ClientPrefs.globalAntialiasing;
 		thisThing.animation.addByPrefix('idle', 'thingidk', 24, false);
 		thisThing.animation.play('idle');

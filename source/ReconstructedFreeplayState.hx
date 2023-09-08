@@ -7,6 +7,10 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
+#if sys
+import sys.FileSystem;
+#end
+
 /*
  * Mostly copied from MinigamesState.hx
  * @see https://github.com/Joalor64GH/Joalor64-Engine-Rewrite/blob/main/source/meta/state/MinigamesState.hx
@@ -17,10 +21,10 @@ class ReconstructedFreeplayState extends MusicBeatState
         private var iconArray:Array<HealthIcon> = [];
 
 	public var controlStrings:Array<CoolSong> = [
-		new CoolSong('tutorial', 'tutorial', 'woah', 'gf'),
-		new CoolSong('bopeebo', 'bopeebo', 'example description', 'dad'),
-		new CoolSong('fresh', 'fresh', 'idk', 'dad'),
-		new CoolSong('dad-battle', 'dad-battle', 'what', 'dad')
+		new CoolSong('Tutorial', 'tutorial', 'woah', 'gf', 'stage'),
+		new CoolSong('Bopeebo', 'bopeebo', 'example description', 'dad', 'stage'),
+		new CoolSong('Fresh', 'fresh', 'idk', 'dad', 'stage'),
+		new CoolSong('Dad-battle', 'dad-battle', 'what', 'dad', 'stage')
 	];
 	
 	var lerpScore:Int = 0;
@@ -38,15 +42,14 @@ class ReconstructedFreeplayState extends MusicBeatState
 
     	override function create()
 	{
-		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel')); // test function
+		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel', 'stage')); // test function
 
 		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
-        	menuBG.color = 0xFFffffff;
 		add(menuBG);
 
         	var thisThing:FlxSprite = new FlxSprite();
-		thisThing.frames = Paths.getSparrowAtlas('mainmenu/thisidk');
+		thisThing.frames = Paths.getSparrowAtlas('freeplay/thisidk');
 		thisThing.antialiasing = ClientPrefs.globalAntialiasing;
 		thisThing.animation.addByPrefix('idle', 'thingidk', 24, false);
 		thisThing.animation.play('idle');
@@ -58,10 +61,10 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		for (i in 0...controlStrings.length)
 		{
-			var controlLabel:Alphabet = new Alphabet(0, 0, controlStrings[i].name, true, false);
+			var controlLabel:Alphabet = new Alphabet(-780, 0, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
-            		controlLabel.isMenuItemCentered = false;
             		controlLabel.itemType = 'Vertical';
+			controlLabel.screenCenter(X);
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
 
@@ -82,7 +85,7 @@ class ReconstructedFreeplayState extends MusicBeatState
         	scoreText.screenCenter(X);
         	add(scoreText);
 
-        	descTxt = new FlxText(scoreText.x, scoreText.y - 25, 1000, "", 22);
+        	descTxt = new FlxText(scoreText.x, scoreText.y + 25, 1000, "", 22);
         	descTxt.screenCenter(X);
 		descTxt.scrollFactor.set();
 		descTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -128,7 +131,7 @@ class ReconstructedFreeplayState extends MusicBeatState
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
             		LoadingState.loadAndSwitchState(new PlayState());
-			PlayState.SONG = Song.loadFromJson(controlStrings[curSelected].name, controlStrings[curSelected].directory);
+			PlayState.SONG = Song.loadFromJson(controlStrings[curSelected].name.toLowerCase(), controlStrings[curSelected].directory);
 		}
 
         	if (FlxG.keys.justPressed.CONTROL)
@@ -148,6 +151,11 @@ class ReconstructedFreeplayState extends MusicBeatState
 			curSelected = grpControls.length - 1;
 		if (curSelected >= grpControls.length)
 			curSelected = 0;
+
+		if(FileSystem.exists(Paths.image('freeplay/${controlStrings[curSelected].bg}'))) 
+            menuBG.loadGraphic(Paths.image('freeplay/${controlStrings[curSelected].bg}'));
+        else 
+	    	trace('ohno its dont exist');
 
 		descTxt.text = controlStrings[curSelected].description;
 
@@ -189,12 +197,14 @@ class CoolSong
 	public var directory:String;
 	public var description:String;
 	public var icon:String;
+	public var bg:String;
 
-	public function new(Name:String, folder:String, dsc:String, img:String)
+	public function new(Name:String, folder:String, dsc:String, img:String, background:String)
 	{
 		name = Name;
 		directory = folder;
         	description = dsc;
         	icon = img;
+		bg = background;
 	}
 }
