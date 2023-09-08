@@ -14,13 +14,13 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 class ReconstructedFreeplayState extends MusicBeatState 
 {
     	private var grpControls:FlxTypedGroup<Alphabet>;
-
         private var iconArray:Array<HealthIcon> = [];
 
-	var controlStrings:Array<CoolSong> = [
-		new CoolSong('bopeebo', 'example description', 'dad'),
-		new CoolSong('fresh', 'idk', 'dad'),
-		new CoolSong('dad-battle', 'what', 'dad')
+	public var controlStrings:Array<CoolSong> = [
+		new CoolSong('Tutorial', 'tutorial', 'woah', 'gf'),
+		new CoolSong('Bopeebo', 'bopeebo', 'example description', 'dad'),
+		new CoolSong('Fresh', 'fresh', 'idk', 'dad'),
+		new CoolSong('Dad-battle', 'dad-battle', 'what', 'dad')
 	];
 	
 	var lerpScore:Int = 0;
@@ -30,22 +30,20 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 	var scoreText:FlxText;
 	var descTxt:FlxText;
-
 	var bottomPanel:FlxSprite;
-
-	var menuBG:FlxSprite;
 
     	var curSelected:Int = 0;
 
     	override function create()
 	{
-		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel')); // test function
+
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
-        	menuBG.color = 0xFFffffff;
 		add(menuBG);
 
         	var thisThing:FlxSprite = new FlxSprite();
-		thisThing.frames = Paths.getSparrowAtlas('mainmenu/thisidk');
+		thisThing.frames = Paths.getSparrowAtlas('freeplay/thisidk');
 		thisThing.antialiasing = ClientPrefs.globalAntialiasing;
 		thisThing.animation.addByPrefix('idle', 'thingidk', 24, false);
 		thisThing.animation.play('idle');
@@ -57,10 +55,11 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		for (i in 0...controlStrings.length)
 		{
-			var controlLabel:Alphabet = new Alphabet(0, 0, controlStrings[i].name, true, false);
+			var controlLabel:Alphabet = new Alphabet(-780, 0, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
-            		controlLabel.isMenuItemCentered = false;
+			controlLabel.isMenuItemCentered = false;
             		controlLabel.itemType = 'Vertical';
+			controlLabel.screenCenter(X);
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
 
@@ -81,7 +80,7 @@ class ReconstructedFreeplayState extends MusicBeatState
         	scoreText.screenCenter(X);
         	add(scoreText);
 
-        	descTxt = new FlxText(scoreText.x, scoreText.y - 25, 1000, "", 22);
+        	descTxt = new FlxText(scoreText.x, scoreText.y + 25, 1000, "", 22);
         	descTxt.screenCenter(X);
 		descTxt.scrollFactor.set();
 		descTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -105,13 +104,11 @@ class ReconstructedFreeplayState extends MusicBeatState
 			lerpRating = intendedRating;
 
 		var ratingSplit:Array<String> = Std.string(Highscore.floorDecimal(lerpRating * 100, 2)).split('.');
-		if(ratingSplit.length < 2) { //No decimals, add an empty space
-			ratingSplit.push('');
-		}
 		
-		while(ratingSplit[1].length < 2) { //Less than 2 decimals in it, add decimals then
+		if(ratingSplit.length < 2)
+			ratingSplit.push('');
+		while(ratingSplit[1].length < 2)
 			ratingSplit[1] += '0';
-		}
 
 		scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
 		positionHighscore();
@@ -130,15 +127,7 @@ class ReconstructedFreeplayState extends MusicBeatState
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
             		LoadingState.loadAndSwitchState(new PlayState());
-			switch (curSelected)
-            		{
-				case 0:
-					PlayState.SONG = Song.loadFromJson('bopeebo-hard', 'bopeebo');
-				case 1:
-					PlayState.SONG = Song.loadFromJson('fresh-hard', 'fresh');
-                		case 2:
-					PlayState.SONG = Song.loadFromJson('dad-battle-hard', 'dad-battle');
-			}
+			PlayState.SONG = Song.loadFromJson(controlStrings[curSelected].name.toLowerCase(), controlStrings[curSelected].directory);
 		}
 
         	if (FlxG.keys.justPressed.CONTROL)
@@ -163,8 +152,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-        	intendedScore = Highscore.scoreGet(controlStrings[curSelected].name);
-		intendedRating = Highscore.ratingGet(controlStrings[curSelected].name);
+        	intendedScore = Highscore.getScore(controlStrings[curSelected].name);
+		intendedRating = Highscore.getRating(controlStrings[curSelected].name);
 
 		for (i in 0...iconArray.length)
 			iconArray[i].alpha = 0.6;
@@ -185,7 +174,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 		}
 	}
 
-    	private function positionHighscore() {
+    	private function positionHighscore() 
+	{
 		scoreText.x = FlxG.width - scoreText.width - 6;
 
 		bottomPanel.scale.x = FlxG.width - scoreText.x + 6;
@@ -196,12 +186,14 @@ class ReconstructedFreeplayState extends MusicBeatState
 class CoolSong
 {
 	public var name:String;
+	public var directory:String;
 	public var description:String;
 	public var icon:String;
 
-	public function new(Name:String, dsc:String, img:String)
+	public function new(Name:String, folder:String, dsc:String, img:String)
 	{
 		name = Name;
+		directory = folder;
         	description = dsc;
         	icon = img;
 	}
