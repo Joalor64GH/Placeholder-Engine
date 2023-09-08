@@ -59,7 +59,6 @@ class ReconstructedFreeplayState extends MusicBeatState
 			controlLabel.isMenuItem = true;
 			controlLabel.isMenuItemCentered = false;
             		controlLabel.itemType = 'Vertical';
-			controlLabel.screenCenter(X);
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
 
@@ -111,7 +110,6 @@ class ReconstructedFreeplayState extends MusicBeatState
 			ratingSplit[1] += '0';
 
 		scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
-		positionHighscore();
 
         	if (controls.UI_UP_P || controls.UI_DOWN_P)
 			changeSelection(controls.UI_UP_P ? -1 : 1);
@@ -172,14 +170,6 @@ class ReconstructedFreeplayState extends MusicBeatState
 				item.alpha = 1;
 			}
 		}
-	}
-
-    	private function positionHighscore() 
-	{
-		scoreText.x = FlxG.width - scoreText.width - 6;
-
-		bottomPanel.scale.x = FlxG.width - scoreText.x + 6;
-		bottomPanel.x = FlxG.width - (bottomPanel.scale.x / 2);
 	}
 }
 
