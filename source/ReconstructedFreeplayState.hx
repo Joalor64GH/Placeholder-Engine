@@ -32,15 +32,13 @@ class ReconstructedFreeplayState extends MusicBeatState
 	var descTxt:FlxText;
 	var bottomPanel:FlxSprite;
 
-	var menuBG:FlxSprite;
-
     	var curSelected:Int = 0;
 
     	override function create()
 	{
 		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel')); // test function
 
-		menuBG = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuBG);
 
@@ -59,6 +57,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			var controlLabel:Alphabet = new Alphabet(-780, 0, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
+			controlLabel.ismenuItemCentered = false;
             		controlLabel.itemType = 'Vertical';
 			controlLabel.screenCenter(X);
 			controlLabel.targetY = i;
@@ -105,6 +104,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 			lerpRating = intendedRating;
 
 		var ratingSplit:Array<String> = Std.string(Highscore.floorDecimal(lerpRating * 100, 2)).split('.');
+		
 		if(ratingSplit.length < 2)
 			ratingSplit.push('');
 		while(ratingSplit[1].length < 2)
