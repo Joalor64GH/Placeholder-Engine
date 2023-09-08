@@ -138,8 +138,8 @@ class ReconstructedFreeplayState extends MusicBeatState
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
             		LoadingState.loadAndSwitchState(new PlayState());
-					var lowercasePlz:String = Paths.formatToSongPath(controlStrings[curSelected].name);
-					var formatIdfk:String = Highscore.formatSong(lowercasePlz);
+			var lowercasePlz:String = Paths.formatToSongPath(controlStrings[curSelected].name);
+			var formatIdfk:String = Highscore.formatSong(lowercasePlz);
 			PlayState.SONG = Song.loadFromJson(formatIdfk, lowercasePlz);
 			PlayState.isStoryMode = false;
 		}
