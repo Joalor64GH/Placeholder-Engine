@@ -175,7 +175,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 	}
 
     	private function positionHighscore() 
-		{
+	{
 		scoreText.x = FlxG.width - scoreText.width - 6;
 
 		bottomPanel.scale.x = FlxG.width - scoreText.x + 6;
