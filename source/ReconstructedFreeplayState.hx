@@ -57,7 +57,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			var controlLabel:Alphabet = new Alphabet(-780, 0, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
-			controlLabel.ismenuItemCentered = false;
+			controlLabel.isMenuItemCentered = false;
             		controlLabel.itemType = 'Vertical';
 			controlLabel.screenCenter(X);
 			controlLabel.targetY = i;
