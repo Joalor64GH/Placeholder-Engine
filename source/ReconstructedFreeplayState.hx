@@ -7,6 +7,8 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
+import flixel.tweens.FlxTween;
+
 /*
  * Mostly copied from MinigamesState.hx
  * @see https://github.com/Joalor64GH/Joalor64-Engine-Rewrite/blob/main/source/meta/state/MinigamesState.hx
@@ -18,10 +20,10 @@ class ReconstructedFreeplayState extends MusicBeatState
         private var iconArray:Array<HealthIcon> = [];
 
 	public var controlStrings:Array<CoolSong> = [
-		new CoolSong('Tutorial', 'tutorial', 'woah', 'gf'),
-		new CoolSong('Bopeebo', 'bopeebo', 'example description', 'dad'),
-		new CoolSong('Fresh', 'fresh', 'idk', 'dad'),
-		new CoolSong('Dad-battle', 'dad-battle', 'what', 'dad')
+		new CoolSong('Tutorial',   'woah',                'gf',  '911444'),
+		new CoolSong('Bopeebo',    'example description', 'dad', 'b73cfa'),
+		new CoolSong('Fresh', 	   'idk',                 'dad', 'b73cfa'),
+		new CoolSong('Dad Battle', 'what',                'dad', 'b73cfa')
 	];
 	
 	var lerpScore:Int = 0;
@@ -34,13 +36,18 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 	var bottomPanel:FlxSprite;
 
+	var menuBG:FlxSprite;
+
+	var intendedColor:FlxColor;
+	var colorTween:FlxTween;
+
     	var curSelected:Int = 0;
 
     	override function create()
 	{
-		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel')); // test function
+		controlStrings.push(new CoolSong('Test', 'omg real??', 'bf-pixel', '59d0ff')); // test function
 
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuBG);
 
@@ -85,6 +92,9 @@ class ReconstructedFreeplayState extends MusicBeatState
 		if(curSelected >= controlStrings.length) 
 			curSelected = 0;
 
+		menuBG.color = CoolUtil.colorFromString(controlStrings[curSelected].color);
+		intendedColor = menuBG.color;
+
         	changeSelection();
 
 		super.create();
@@ -116,6 +126,9 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		if (controls.BACK) 
         	{
+			if(colorTween != null) {
+					colorTween.cancel();
+				}
                 	FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
         	}
@@ -125,7 +138,10 @@ class ReconstructedFreeplayState extends MusicBeatState
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
             		LoadingState.loadAndSwitchState(new PlayState());
-			PlayState.SONG = Song.loadFromJson(controlStrings[curSelected].name.toLowerCase(), controlStrings[curSelected].directory);
+					var lowercasePlz:String = Paths.formatToSongPath(controlStrings[curSelected].name);
+					var formatIdfk:String = Highscore.formatSong(lowercasePlz);
+			PlayState.SONG = Song.loadFromJson(formatIdfk, lowercasePlz);
+			PlayState.isStoryMode = false;
 		}
 
         	if (FlxG.keys.justPressed.CONTROL)
@@ -147,6 +163,20 @@ class ReconstructedFreeplayState extends MusicBeatState
 			curSelected = 0;
 
 		descTxt.text = controlStrings[curSelected].description;
+
+		var newColor:FlxColor = CoolUtil.colorFromString(controlStrings[curSelected].color);
+		trace('The BG color is: $newColor');
+		if(newColor != intendedColor) {
+			if(colorTween != null) {
+				colorTween.cancel();
+			}
+			intendedColor = newColor;
+			colorTween = FlxTween.color(menuBG, 1, menuBG.color, intendedColor, {
+				onComplete: function(twn:FlxTween) {
+					colorTween = null;
+				}
+			});
+		}
 
 		var bullShit:Int = 0;
 
@@ -176,15 +206,15 @@ class ReconstructedFreeplayState extends MusicBeatState
 class CoolSong
 {
 	public var name:String;
-	public var directory:String;
 	public var description:String;
 	public var icon:String;
+	public var color:String;
 
-	public function new(Name:String, folder:String, dsc:String, img:String)
+	public function new(Name:String, dsc:String, img:String, col:String)
 	{
 		name = Name;
-		directory = folder;
         	description = dsc;
         	icon = img;
+		color = col;
 	}
 }
