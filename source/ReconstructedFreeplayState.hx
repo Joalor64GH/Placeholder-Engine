@@ -7,10 +7,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
-#if sys
-import sys.FileSystem;
-#end
-
 /*
  * Mostly copied from MinigamesState.hx
  * @see https://github.com/Joalor64GH/Joalor64-Engine-Rewrite/blob/main/source/meta/state/MinigamesState.hx
@@ -21,10 +17,10 @@ class ReconstructedFreeplayState extends MusicBeatState
         private var iconArray:Array<HealthIcon> = [];
 
 	public var controlStrings:Array<CoolSong> = [
-		new CoolSong('Tutorial', 'tutorial', 'woah', 'gf', 'stage'),
-		new CoolSong('Bopeebo', 'bopeebo', 'example description', 'dad', 'stage'),
-		new CoolSong('Fresh', 'fresh', 'idk', 'dad', 'stage'),
-		new CoolSong('Dad-battle', 'dad-battle', 'what', 'dad', 'stage')
+		new CoolSong('Tutorial', 'tutorial', 'woah', 'gf'),
+		new CoolSong('Bopeebo', 'bopeebo', 'example description', 'dad'),
+		new CoolSong('Fresh', 'fresh', 'idk', 'dad'),
+		new CoolSong('Dad-battle', 'dad-battle', 'what', 'dad')
 	];
 	
 	var lerpScore:Int = 0;
@@ -42,9 +38,9 @@ class ReconstructedFreeplayState extends MusicBeatState
 
     	override function create()
 	{
-		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel', 'stage')); // test function
+		controlStrings.push(new CoolSong('test', 'test', 'omg real??', 'bf-pixel')); // test function
 
-		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		menuBG = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuBG);
 
@@ -152,11 +148,6 @@ class ReconstructedFreeplayState extends MusicBeatState
 		if (curSelected >= grpControls.length)
 			curSelected = 0;
 
-		if(FileSystem.exists(Paths.image('freeplay/${controlStrings[curSelected].bg}'))) 
-            menuBG.loadGraphic(Paths.image('freeplay/${controlStrings[curSelected].bg}'));
-        else 
-	    	trace('ohno its dont exist');
-
 		descTxt.text = controlStrings[curSelected].description;
 
 		var bullShit:Int = 0;
@@ -183,7 +174,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 		}
 	}
 
-    	private function positionHighscore() {
+    	private function positionHighscore() 
+		{
 		scoreText.x = FlxG.width - scoreText.width - 6;
 
 		bottomPanel.scale.x = FlxG.width - scoreText.x + 6;
@@ -197,14 +189,12 @@ class CoolSong
 	public var directory:String;
 	public var description:String;
 	public var icon:String;
-	public var bg:String;
 
-	public function new(Name:String, folder:String, dsc:String, img:String, background:String)
+	public function new(Name:String, folder:String, dsc:String, img:String)
 	{
 		name = Name;
 		directory = folder;
         	description = dsc;
         	icon = img;
-		bg = background;
 	}
 }
