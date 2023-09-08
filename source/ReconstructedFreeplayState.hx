@@ -14,6 +14,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 class ReconstructedFreeplayState extends MusicBeatState 
 {
     	private var grpControls:FlxTypedGroup<Alphabet>;
+		
         private var iconArray:Array<HealthIcon> = [];
 
 	public var controlStrings:Array<CoolSong> = [
@@ -30,6 +31,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 	var scoreText:FlxText;
 	var descTxt:FlxText;
+
 	var bottomPanel:FlxSprite;
 
     	var curSelected:Int = 0;
@@ -42,23 +44,18 @@ class ReconstructedFreeplayState extends MusicBeatState
         	menuBG.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuBG);
 
-        	var thisThing:FlxSprite = new FlxSprite();
-		thisThing.frames = Paths.getSparrowAtlas('freeplay/thisidk');
-		thisThing.antialiasing = ClientPrefs.globalAntialiasing;
-		thisThing.animation.addByPrefix('idle', 'thingidk', 24, false);
-		thisThing.animation.play('idle');
-		thisThing.updateHitbox();
-		add(thisThing);
+        	var slash:FlxSprite = new FlxSprite().loadGraphic(Paths.image('freeplay/slash'));
+		slash.antialiasing = ClientPrefs.globalAntialiasing;
+		slash.screenCenter();
+		add(slash);
 
         	grpControls = new FlxTypedGroup<Alphabet>();
 		add(grpControls);
 
 		for (i in 0...controlStrings.length)
 		{
-			var controlLabel:Alphabet = new Alphabet(-780, 0, controlStrings[i].name, true, false);
+			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
-			controlLabel.isMenuItemCentered = false;
-            		controlLabel.itemType = 'Vertical';
 			controlLabel.targetY = i;
 			grpControls.add(controlLabel);
 
@@ -74,16 +71,19 @@ class ReconstructedFreeplayState extends MusicBeatState
 		add(bottomPanel);
 
         	scoreText = new FlxText(20, FlxG.height - 80, 1000, "", 22);
-		scoreText.setFormat("VCR OSD Mono", 26, 0xFFffffff, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreText.setFormat("VCR OSD Mono", 30, 0xFFffffff, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreText.scrollFactor.set();
         	scoreText.screenCenter(X);
         	add(scoreText);
 
-        	descTxt = new FlxText(scoreText.x, scoreText.y + 25, 1000, "", 22);
+        	descTxt = new FlxText(scoreText.x, scoreText.y + 32, 1000, "", 22);
         	descTxt.screenCenter(X);
 		descTxt.scrollFactor.set();
-		descTxt.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descTxt.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(descTxt);
+
+		if(curSelected >= controlStrings.length) 
+			curSelected = 0;
 
         	changeSelection();
 
