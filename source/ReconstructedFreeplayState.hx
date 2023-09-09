@@ -9,6 +9,8 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 
 import flixel.tweens.FlxTween;
 
+using StringTools;
+
 /*
  * Mostly copied from MinigamesState.hx
  * @see https://github.com/Joalor64GH/Joalor64-Engine-Rewrite/blob/main/source/meta/state/MinigamesState.hx
@@ -63,7 +65,7 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlStrings[i].name, true, false);
 			controlLabel.isMenuItem = true;
-			controlLabel.targetY = i;
+			controlLabel.targetY = i - curSelected;
 			grpControls.add(controlLabel);
 
             		var icon:HealthIcon = new HealthIcon(controlStrings[i].icon);
@@ -137,9 +139,9 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
             		FlxG.sound.music.volume = 0;
             		FlxG.sound.play(Paths.sound('confirmMenu'));
-            		LoadingState.loadAndSwitchState(new PlayState());
 			var lowercasePlz:String = Paths.formatToSongPath(controlStrings[curSelected].name);
 			var formatIdfk:String = Highscore.formatSong(lowercasePlz);
+			LoadingState.loadAndSwitchState(new PlayState());
 			PlayState.SONG = Song.loadFromJson(formatIdfk, lowercasePlz);
 			PlayState.isStoryMode = false;
 		}
@@ -148,6 +150,12 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
+		}
+		else if (controls.RESET)
+		{
+			persistentUpdate = false;
+			openSubState(new ResetScoreSubState(controlStrings[curSelected].name, controlStrings[curSelected].icon));
+			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 	}
 
