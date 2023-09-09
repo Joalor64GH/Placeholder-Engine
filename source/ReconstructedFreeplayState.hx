@@ -176,8 +176,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			if(colorTween != null) 
 			{
-		colorTween.cancel();
-	}
+				colorTween.cancel();
+			}
 			intendedColor = newColor;
 			colorTween = FlxTween.color(menuBG, 1, menuBG.color, intendedColor, 
 			{
