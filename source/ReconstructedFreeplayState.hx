@@ -91,9 +91,6 @@ class ReconstructedFreeplayState extends MusicBeatState
 		descTxt.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(descTxt);
 
-		if(curSelected >= controlStrings.length) 
-			curSelected = 0;
-
 		menuBG.color = CoolUtil.colorFromString(controlStrings[curSelected].color);
 		intendedColor = menuBG.color;
 
@@ -128,7 +125,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		if (controls.BACK) 
         	{
-			if(colorTween != null) {
+			if(colorTween != null) 
+			{
 					colorTween.cancel();
 				}
                 	FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -174,13 +172,17 @@ class ReconstructedFreeplayState extends MusicBeatState
 
 		var newColor:FlxColor = CoolUtil.colorFromString(controlStrings[curSelected].color);
 		trace('The BG color is: $newColor');
-		if(newColor != intendedColor) {
-			if(colorTween != null) {
+		if(newColor != intendedColor) 
+		{
+			if(colorTween != null) 
+			{
 				colorTween.cancel();
 			}
 			intendedColor = newColor;
-			colorTween = FlxTween.color(menuBG, 1, menuBG.color, intendedColor, {
-				onComplete: function(twn:FlxTween) {
+			colorTween = FlxTween.color(menuBG, 1, menuBG.color, intendedColor, 
+			{
+				onComplete: function(twn:FlxTween) 
+				{
 					colorTween = null;
 				}
 			});
