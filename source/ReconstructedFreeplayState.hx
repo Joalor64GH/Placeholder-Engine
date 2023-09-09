@@ -85,7 +85,7 @@ class ReconstructedFreeplayState extends MusicBeatState
         	scoreText.screenCenter(X);
         	add(scoreText);
 
-        	descTxt = new FlxText(scoreText.x, scoreText.y + 32, 1000, "", 22);
+        	descTxt = new FlxText(scoreText.x, scoreText.y + 36, 1000, "", 22);
         	descTxt.screenCenter(X);
 		descTxt.scrollFactor.set();
 		descTxt.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -176,8 +176,8 @@ class ReconstructedFreeplayState extends MusicBeatState
 		{
 			if(colorTween != null) 
 			{
-				colorTween.cancel();
-			}
+		colorTween.cancel();
+	}
 			intendedColor = newColor;
 			colorTween = FlxTween.color(menuBG, 1, menuBG.color, intendedColor, 
 			{
